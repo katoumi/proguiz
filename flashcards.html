@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flashcards | Proguiz</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">💡Proguiz</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="sets.html">Topics</a></li>
+      <li><a href="flashcards.html" class="active">Flashcards</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+      <li><a href="info.html">Info</a></li>
+    </ul>
+    <a href="contact.html" class="contact-btn">Contact Us</a>
+  </nav>
+
+  <!-- FLASHCARDS -->
+  <section class="flashcard-container">
+    <h1 id="topicTitle">Flashcards</h1>
+    <div id="card" class="flashcard">
+      <div class="front">Loading...</div>
+      <div class="back"></div>
+    </div>
+
+    <div class="flashcard-controls">
+      <button id="prev" class="control-btn">Back</button>
+      <button id="flip" class="control-btn">Flip</button>
+      <button id="next" class="control-btn">Next</button>
+    </div>
+  </section>
+
+  <script src="js/data.js"></script>
+  <script src="js/script.js"></script>
+</body>
+<script>
+  // Fade-in on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+  });
+
+  // Fade-out on internal navigation
+  document.querySelectorAll('a[href]').forEach(link => {
+    const url = link.getAttribute('href');
+
+    // apply only to local links
+    if (url && !url.startsWith("http") && !url.startsWith("#") && !url.startsWith("mailto")) {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        document.body.classList.remove("fade-in");
+        document.body.style.opacity = "0";
+        setTimeout(() => {
+          window.location.href = url;
+        }, 300); // must be slightly shorter than CSS transition
+      });
+    }
+  });
+
+  // Smooth navigation for button redirects
+  function smoothNavigate(url) {
+    document.body.classList.remove("fade-in");
+    document.body.style.opacity = "0";
+    setTimeout(() => {
+      window.location.href = url;
+    }, 300);
+  }
+</script>
+
+</html>

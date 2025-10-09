@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Proguiz</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="about-page">
+  <nav class="navbar">
+  <div class="logo">💡Proguiz</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="sets.html">Topics</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="info.html">Info</a></li> 
+  </ul>
+  <a href="contact.html" class="contact-btn">Contact Us</a>
+</nav>
+
+
+  <section class="info-section">
+  <h1>About Proguiz</h1>
+  <p class="about-intro">
+    Proguiz is an educational platform built to make learning web development interactive, efficient, and fun. 
+    Test your knowledge through <strong>flashcards</strong> and <strong>quizzes</strong> designed to help you 
+    master HTML, CSS, and JavaScript faster.
+  </p>
+
+  <div class="about-grid">
+    <div class="about-card">
+      <h2>Our Mission</h2>
+      <p>
+        We believe learning to code should be engaging and approachable. 
+        Our mission is to make complex web topics simple through repetition, 
+        instant feedback, and gamified learning experiences.
+      </p>
+    </div>
+
+    <div class="about-card">
+      <h2>How It Works</h2>
+      <p>
+        Choose a topic, study interactive flashcards, and then take a quiz to test what you've learned. 
+        Your progress is tracked locally, so you can revisit your results anytime and measure improvement.
+      </p>
+    </div>
+  </div>
+</section>
+
+</body>
+<script>
+  // Fade-in on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+  });
+
+  // Fade-out on internal navigation
+  document.querySelectorAll('a[href]').forEach(link => {
+    const url = link.getAttribute('href');
+
+    // apply only to local links
+    if (url && !url.startsWith("http") && !url.startsWith("#") && !url.startsWith("mailto")) {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        document.body.classList.remove("fade-in");
+        document.body.style.opacity = "0";
+        setTimeout(() => {
+          window.location.href = url;
+        }, 300); // must be slightly shorter than CSS transition
+      });
+    }
+  });
+
+  // Smooth navigation for button redirects
+  function smoothNavigate(url) {
+    document.body.classList.remove("fade-in");
+    document.body.style.opacity = "0";
+    setTimeout(() => {
+      window.location.href = url;
+    }, 300);
+  }
+</script>
+
+</html>

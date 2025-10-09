@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Results | Proguiz</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">💡Proguiz</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="sets.html">Topics</a></li>
+      <li><a href="results.html" class="active">Results</a></li>
+      <li><a href="info.html">Info</a></li>
+    </ul>
+  </nav>
+
+  <div class="container fade-in">
+    <div id="latestResult" class="result-summary"></div>
+
+    <h1>Your Quiz History</h1>
+
+    <div id="historyContainer" class="history-box">
+      <p>Loading your past quizzes...</p>
+    </div>
+
+    <button class="secondary-btn" onclick="clearHistory()">Clear History</button>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("historyContainer");
+    const latestResult = document.getElementById("latestResult");
+
+    const history = JSON.parse(localStorage.getItem("quizHistory")) || [];
+    const lastScore = localStorage.getItem("score");
+    const lastTotal = localStorage.getItem("total");
+    const lastTopic = localStorage.getItem("selectedSet");
+
+    // --- Show latest quiz summary if available ---
+    if (lastScore && lastTotal && lastTopic) {
+      latestResult.innerHTML = `
+        <h2>Latest Result</h2>
+        <p><strong>${lastTopic.toUpperCase()}</strong>: You scored 
+        <span class="highlight">${lastScore}</span> / ${lastTotal}</p>
+      `;
+    } else {
+      latestResult.innerHTML = `<p>No recent quiz result found.</p>`;
+    }
+
+    // --- Show quiz history ---
+    if (history.length === 0) {
+      container.innerHTML = "<p>No quiz history yet. Take a quiz to get started!</p>";
+      return;
+    }
+
+    let html = `
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Score</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    history.slice().reverse().forEach(item => {
+      html += `
+        <tr>
+          <td>${item.topic.toUpperCase()}</td>
+          <td>${item.score} / ${item.total}</td>
+          <td>${item.date}</td>
+        </tr>
+      `;
+    });
+
+    html += "</tbody></table>";
+    container.innerHTML = html;
+  });
+
+  function clearHistory() {
+    if (confirm("Are you sure you want to clear all quiz history?")) {
+      localStorage.removeItem("quizHistory");
+      localStorage.removeItem("score");
+      localStorage.removeItem("total");
+      localStorage.removeItem("selectedSet");
+      location.reload();
+    }
+  }
+</script>
+<script>
+  // Fade-in on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("fade-in");
+  });
+
+  // Fade-out on internal navigation
+  document.querySelectorAll('a[href]').forEach(link => {
+    const url = link.getAttribute('href');
+
+    // apply only to local links
+    if (url && !url.startsWith("http") && !url.startsWith("#") && !url.startsWith("mailto")) {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        document.body.classList.remove("fade-in");
+        document.body.style.opacity = "0";
+        setTimeout(() => {
+          window.location.href = url;
+        }, 300); // must be slightly shorter than CSS transition
+      });
+    }
+  });
+
+  // Smooth navigation for button redirects
+  function smoothNavigate(url) {
+    document.body.classList.remove("fade-in");
+    document.body.style.opacity = "0";
+    setTimeout(() => {
+      window.location.href = url;
+    }, 300);
+  }
+
+</script>
+
+</html>

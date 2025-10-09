@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Information | Proguiz</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      color: #f5f5f5;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.8;
+      background: radial-gradient(circle at top left, #0d0d20, #050510);
+      overflow-x: hidden;
+    }
+
+    .content {
+      max-width: 900px;
+      margin: 160px auto 100px auto;
+      background-color: rgba(25, 25, 50, 0.6);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2, h3 {
+      color: #b5a0ff;
+      margin-top: 40px;
+    }
+
+    p {
+      color: #dcdcdc;
+    }
+
+    ul {
+      margin-left: 20px;
+    }
+
+    a {
+      color: #8b79ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* --- New Brief Explanation Section --- */
+    .brief-section {
+      text-align: center;
+      margin: 100px auto;
+      padding: 60px 20px;
+      background-color: rgba(25, 25, 50, 0.8);
+      border-top: 2px solid #3b3b5c;
+      border-bottom: 2px solid #3b3b5c;
+    }
+
+    .brief-section h1 {
+      font-size: 2rem;
+      color: #b5a0ff;
+      margin-bottom: 50px;
+    }
+
+    .brief-cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .brief-card {
+      background-color: #1e1e35;
+      border-radius: 15px;
+      width: 380px;
+      padding: 25px 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .brief-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 20px rgba(150, 100, 255, 0.2);
+    }
+
+    .brief-card h2 {
+      color: #00e0d4;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+
+    .brief-card p {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+
+    @media (max-width: 800px) {
+      .brief-card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">💡Proguiz</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="sets.html">Topics</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="info.html" class="active">Info</a></li>
+    </ul>
+    <a href="contact.html" class="contact-btn">Contact Us</a>
+  </nav>
+
+  <div class="content">
+    <h1>The MVC Design Pattern</h1>
+    <p>
+      The Model-View-Controller (MVC) pattern is an architectural design principle that separates
+      an application into three interconnected components: the Model, the View, and the Controller.
+      This separation helps organize code efficiently, promotes scalability, and simplifies maintenance.
+    </p>
+
+    <h2>Characteristics</h2>
+    <ul>
+      <li><strong>Model:</strong> Handles the data and business logic.</li>
+      <li><strong>View:</strong> Manages the display and user interface.</li>
+      <li><strong>Controller:</strong> Acts as an intermediary, processing user inputs and updating both Model and View.</li>
+    </ul>
+
+    <h2>How MVC Works in Proguiz</h2>
+    <p>
+      In the Proguiz web app, the <b>HTML</b> pages serve as the View, presenting visual content and structure.
+      The <b>JavaScript</b> acts as the Controller, handling user interactions like flipping flashcards or answering quizzes.
+      The <b>data structures</b> (studySets) act as the Model, storing information and questions.
+    </p>
+
+    <h2>Benefits of Using MVC</h2>
+    <ul>
+      <li>Separation of concerns makes code easier to maintain.</li>
+      <li>Improves scalability and debugging efficiency.</li>
+      <li>Allows independent updates to UI and logic without breaking the entire system.</li>
+    </ul>
+
+    <h2>Reference</h2>
+    <p>
+      Adapted from principles of the Model–View–Controller design pattern, widely used in web development.
+    </p>
+  </div>
+
+  <section class="brief-section">
+    <h1>Brief Explanation for the Topic</h1>
+    <div class="brief-cards">
+      <div class="brief-card">
+        <h2>1. Structure and Separation</h2>
+        <p>
+          The website clearly separates data, interface, and logic layers through the MVC pattern.
+          This ensures maintainability and allows developers to extend or modify modules without affecting the entire system.
+        </p>
+      </div>
+      <div class="brief-card">
+        <h2>2. Interactivity and Usability</h2>
+        <p>
+          Interactive elements like quizzes, flashcards, and sound feedback improve engagement.
+          Smooth transitions, minimal design, and clear feedback mechanisms align with HCI best practices.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <div style="text-align:center; margin-bottom:80px;">
+  <a href="info2.html" class="primary-btn">Next</a>
+</div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.style.opacity = 0;
+      setTimeout(() => { document.body.style.transition = "opacity 0.5s"; document.body.style.opacity = 1; }, 100);
+    });
+  </script>
+</body>
+</html>
