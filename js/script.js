@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+
 // === UNIVERSAL BUTTON CLICK SOUND ===
 document.addEventListener("DOMContentLoaded", () => {
   const clickSound = new Audio("sounds/click.mp3");
@@ -57,44 +58,52 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 // === FLASHCARDS ===
-const topic = localStorage.getItem("selectedSet");
-const data = studySets[topic] || { flashcards: [], quiz: [] };
-const card = document.getElementById("card");
-const title = document.getElementById("topicTitle");
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof studySets === "undefined") return;
 
-if (title && topic) title.textContent = `${topic.toUpperCase()} Flashcards`;
+  const topic = localStorage.getItem("selectedSet");
+  const data = studySets[topic] || { flashcards: [], quiz: [] };
+  const card = document.getElementById("card");
+  const title = document.getElementById("topicTitle");
 
-if (card && data.flashcards.length > 0) {
-  const front = card.querySelector(".front");
-  const back = card.querySelector(".back");
-  let currentCard = 0;
+  if (title && topic) title.textContent = `${topic.toUpperCase()} Flashcards`;
 
-  function showCard() {
-    const item = data.flashcards[currentCard];
-    front.textContent = item.front;
-    back.textContent = item.back;
+  if (card && data.flashcards.length > 0) {
+    const front = card.querySelector(".front");
+    const back = card.querySelector(".back");
+    let currentCard = 0;
+
+    function showCard() {
+      const item = data.flashcards[currentCard];
+      front.textContent = item.front;
+      back.textContent = item.back;
+    }
+
+    document.getElementById("flip").onclick = () => card.classList.toggle("flipped");
+    document.getElementById("next").onclick = () => {
+      currentCard = (currentCard + 1) % data.flashcards.length;
+      card.classList.remove("flipped");
+      showCard();
+    };
+    document.getElementById("prev").onclick = () => {
+      currentCard = (currentCard - 1 + data.flashcards.length) % data.flashcards.length;
+      card.classList.remove("flipped");
+      showCard();
+    };
+
+    showCard();
+  } else if (card) {
+    card.querySelector(".front").textContent = "No flashcards found for this topic.";
   }
+});
 
-  document.getElementById("flip").onclick = () => card.classList.toggle("flipped");
-  document.getElementById("next").onclick = () => {
-    currentCard = (currentCard + 1) % data.flashcards.length;
-    card.classList.remove("flipped");
-    showCard();
-  };
-  document.getElementById("prev").onclick = () => {
-    currentCard = (currentCard - 1 + data.flashcards.length) % data.flashcards.length;
-    card.classList.remove("flipped");
-    showCard();
-  };
-
-  showCard();
-} else if (card) {
-  card.querySelector(".front").textContent = "No flashcards found for this topic.";
-}
 
 // === QUIZ LOGIC ===
 document.addEventListener("DOMContentLoaded", () => {
+  if (typeof studySets === "undefined") return;
+
   const topic = localStorage.getItem("selectedSet");
   if (!topic || !studySets[topic]) {
     const qElem = document.getElementById("question");
@@ -130,13 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function loadQuestion() {
-    // Prevent re-attaching listeners
-    opts.replaceChildren();
-
-    if (qIndex >= data.length) return finishQuiz();
+    if (qIndex >= data.length) {
+      finishQuiz();
+      return;
+    }
 
     const q = data[qIndex];
     qElem.textContent = q.q;
+    opts.innerHTML = "";
     selected = null;
     confirmBtn.disabled = true;
     nextBtn.style.display = "none";
@@ -158,8 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Confirm Answer ---
-  confirmBtn.onclick = () => {
+  confirmBtn.addEventListener("click", () => {
     if (selected === null) return;
 
     const q = data[qIndex];
@@ -179,10 +188,9 @@ document.addEventListener("DOMContentLoaded", () => {
     confirmBtn.style.display = "none";
     nextBtn.textContent = qIndex < data.length - 1 ? "Next Question" : "See Results";
     nextBtn.style.display = "inline-block";
-  };
+  });
 
-  // --- Next or Finish ---
-  nextBtn.onclick = () => {
+  nextBtn.addEventListener("click", () => {
     if (qIndex >= data.length - 1) {
       finishQuiz();
     } else {
@@ -192,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nextBtn.style.display = "none";
       loadQuestion();
     }
-  };
+  });
 
   function finishQuiz() {
     const date = new Date().toLocaleString();
@@ -205,6 +213,18 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("total", data.length);
     localStorage.setItem("selectedSet", topic);
 
+    // Send quiz result to backend with session cookie
+  fetch("save_result.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    credentials: "include", 
+    body: `topic=${encodeURIComponent(topic)}&score=${score}&total=${data.length}`
+})
+  .then(res => res.text())
+  .then(text => console.log("Server response:", text))
+  .catch(err => console.error("Error saving result:", err));
+
+    // Show summary
     qElem.textContent = "";
     opts.innerHTML = `
       <div class="quiz-summary">
@@ -221,7 +241,6 @@ document.addEventListener("DOMContentLoaded", () => {
     progressFill.style.width = "100%";
     progressText.textContent = "Quiz Finished";
 
-    // Attach new event listeners ONCE
     document.getElementById("view-results").onclick = () => {
       window.location.href = "results.html";
     };

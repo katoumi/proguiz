@@ -1158,3 +1158,97 @@ body.team-page h1 {
   margin: 60px 0 100px 0;
 }
 
+/* === AUTH PAGES (Login & Register) === */
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a1a, #1e1e2f);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.auth-container {
+  background: #1f1f33;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.4s ease;
+}
+
+.auth-container h2 {
+  color: #a694f5;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-container input {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2a2a45;
+  color: #fff;
+  font-size: 14px;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.auth-container input:focus {
+  outline: none;
+  background: #35355a;
+  transform: scale(1.02);
+}
+
+.auth-container button {
+  padding: 12px;
+  background: #00c7b7;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #111;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.auth-container button:hover {
+  background: #00e0c9;
+  transform: translateY(-2px);
+}
+
+.auth-container p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.auth-container a {
+  color: #a694f5;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.auth-container a:hover {
+  color: #b5a7ff;
+}
+
+.auth-container .error {
+  background: rgba(255, 0, 0, 0.15);
+  padding: 10px;
+  border-radius: 8px;
+  color: #ff6666;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
